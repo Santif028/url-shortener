@@ -1,13 +1,13 @@
 
 import Link from "next/link";
-import LogoPage from "../components/logo/page"
+import LogoPage from "@/components/logo/logo"
 import { AuthButtonServer } from "../login/auth-button-server";
 
 
 
 const NavbarComponent = () => {
     return (
-        <nav className="flex items-center fixed z-10 p-2">
+        <nav className="flex items-center z-10 p-2">
             <LogoPage />
             <ul className="flex items-center">
                 <li className="p-2 pl-5 pr-5">

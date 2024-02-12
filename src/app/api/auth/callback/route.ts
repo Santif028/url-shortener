@@ -1,7 +1,7 @@
 
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { createClient } from '@/app/utils/supabase/server'
+import { createClient } from '@/server/supabase/server'
 
 export const dynamic = 'force-dynamic'
 

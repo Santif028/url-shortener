@@ -1,6 +1,6 @@
 import AuthButton from './auth-button-client';
 import { cookies } from 'next/headers';
-import { createClient } from '../utils/supabase/server';
+import { createClient } from '@/server/supabase/server';
 
 export async function AuthButtonServer() {
     const cookieStore = cookies();

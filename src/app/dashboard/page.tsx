@@ -1,51 +1,23 @@
-'use client'
-
-import { cookies } from "next/headers";
-import { createClient } from "../utils/supabase/server"
-import { User } from "@supabase/supabase-js";
-import { useState } from "react";
-import { GetServerSideProps, GetServerSidePropsContext } from "next/types";
-import { getSession } from "./actions";
-
-interface Link {
-    id: string,
-    original_url: string,
-    short_url: string,
-    created_at: Date,
-    user_id: string,
-}
-
-const DashboardPage = () => {
-    const [links, setLinks] = useState<Link[]>([])
+import ShowLinks from '@/components/links/show-links';
+import { getLinksByUser } from '@/server/actions/links';
+import { getUserBySession } from '@/server/utils/users';
 
 
+const DashboardPage = async () => {
+    const user = await getUserBySession();
 
-    return (
-        <div className="flex justify-center items-center h-screen">
-            <h1>Welcome { } </h1>
-            <div>
+    if (user) {
+        const getLinks = await getLinksByUser(user);
 
-            </div>
-        </div>
-    )
-}
+        if (!getLinks) {
+            return <div>Error</div>;
+        }
+        return (
 
-
-/* export const getServerSideProps: GetServerSideProps = async () => {
-    const session = await getSession();
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            },
-        };
+            <ShowLinks links={getLinks} />
+        )
     }
 
-    return {
-        props: { session },
-    };
-}; */
+}
 
 export default DashboardPage

@@ -3,7 +3,7 @@ import Link from "next/link"
 const HeaderPage = async () => {
 
     return (
-        <div className="flex justify-center items-center h-screen flex-col">
+        <div className="flex justify-center items-center h-full flex-col">
             <h1 className="text-3xl md:text-6xl mb-2 md:mb-5">Setsu Open Source Link Shortener</h1>
             <h3 className="text-2xl mb-6 text-gray-400">
                 based on <span className="text-white hover:text-red-200"><Link href='https://slug.vercel.app' target="_blank">Slug</Link></span> Link Shortener

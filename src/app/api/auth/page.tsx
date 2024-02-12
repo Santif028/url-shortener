@@ -1,4 +1,4 @@
-import { AuthButtonServer } from "../login/auth-button-server"
+import { AuthButtonServer } from "../../login/auth-button-server"
 
 const LoginPage = () => {
     return (

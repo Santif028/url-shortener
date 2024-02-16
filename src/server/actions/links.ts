@@ -1,5 +1,6 @@
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { createClient } from "../supabase/client";
+import { revalidatePath } from "next/cache";
 
 const supabase = createClient()
 
@@ -15,7 +16,7 @@ export const getLinksByUser = async (user: User) => {
         return null;
     }
 
-    const { data, error } = await supabase.from('links').select('*').eq('user_id', user.id);
+    const { data, error } = await supabase.from('links').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
 
     if (error) {
         console.error("Error fetching links:", error.message);
@@ -72,7 +73,7 @@ export const createLink = async (values: CreateLink, user: User) => {
     }
 
     // Create new link:
-    const { data, error } = await supabase.from('links').insert({
+    const { error } = await supabase.from('links').insert({
         original_url: values.original_url,
         short_url: values.short_url,
         user_id: user.id
@@ -83,7 +84,6 @@ export const createLink = async (values: CreateLink, user: User) => {
         return null;
     }
 
-    return data;
 };
 
 

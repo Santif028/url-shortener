@@ -1,5 +1,10 @@
 'use client'
 
+import { getLinksByUser } from "@/server/actions/links";
+import { Card } from "@/ui/card";
+import { User } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
+
 interface LinksProps {
     id: string;
     original_url: string;
@@ -8,26 +13,32 @@ interface LinksProps {
     user_id: string;
 }
 
-interface ShowLinksProps {
-    links: LinksProps[];
-}
+const ShowLinks = ({ user }: { user: User | null }) => {
+    const [links, setLinks] = useState<LinksProps[]>([]);
 
+    useEffect(() => {
+        async function fetchLinks() {
+            if (user) {
+                const fetchedLinks = await getLinksByUser(user);
+                setLinks(fetchedLinks || []);
+            }
+        }
 
+        fetchLinks();
+    }, [links, user]);
 
-const ShowLinks: React.FC<ShowLinksProps> = ({ links }) => {
     return (
-        <div>
-            {links
-                /* .sort((a, b) => b.id - a.id) */
-                .map(link => {
-                    return (
-                        <div key={link.id}>
-                            <div>{link.original_url}</div>
-                            <div>{link.short_url}</div>
-                            <div>{link.user_id}</div>
-                        </div>
-                    );
-                })}
+        <div className="flex flex-wrap gap-5 p-5">
+
+            {
+                links
+                    .map(link => {
+                        return (
+                            <Card original_url={link.original_url} short_url={link.short_url} key={link.id} />
+
+                        );
+                    })
+            }
         </div>
     );
 }

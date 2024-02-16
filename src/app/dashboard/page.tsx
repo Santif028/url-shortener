@@ -1,23 +1,20 @@
 import ShowLinks from '@/components/links/show-links';
 import { getLinksByUser } from '@/server/actions/links';
-import { getUserBySession } from '@/server/utils/users';
-
+import { getUser } from '@/server/utils/users';
 
 const DashboardPage = async () => {
-    const user = await getUserBySession();
+    const user = await getUser();
 
-    if (user) {
-        const getLinks = await getLinksByUser(user);
 
-        if (!getLinks) {
-            return <div>Error</div>;
-        }
-        return (
-
-            <ShowLinks links={getLinks} />
-        )
+    if (!user) {
+        return <div>Error</div>;
     }
+    return (
 
+        <ShowLinks user={user} />
+    )
 }
+
+
 
 export default DashboardPage

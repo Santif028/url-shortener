@@ -8,14 +8,19 @@ import { PlusIcon } from "lucide-react";
 
 import DashboardRoutesComponent from "@/components/dashboard-routes";*/
 import { CreateLink } from "@/components/links/create-link-client";
-import { getUserBySession } from "@/server/utils/users";
+import { getUser } from "@/server/utils/users";
+import { redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
     children: ReactNode;
 }
 
 const DashboardLayout = async (props: DashboardLayoutProps) => {
-    const user = await getUserBySession();
+    const user = await getUser();
+
+    if(user === null) {
+        redirect('/login')
+    }
 
     return (
         <>

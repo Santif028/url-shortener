@@ -1,6 +1,5 @@
 'use client'
 
-import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/server/supabase/client'
@@ -13,16 +12,14 @@ export async function login() {
         options: {
             redirectTo: 'http://localhost:3000/api/auth/callback'
         }
-    })    
+    })
     if (error) {
         redirect('/error')
     }
-
-    revalidatePath('/dashboard', 'layout')
-    redirect('/dashboard')
 }
 
 export async function logout() {
     await supabase.auth.signOut()
+    
 }
 

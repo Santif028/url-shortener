@@ -21,3 +21,9 @@ export const apiAuthPrefix: string = "/api/auth";
  * The default redirect URL after logging in.
  */
 export const DEFAULT_LOGIN_REDIRECT_URL: string = "/dashboard";
+
+
+/**
+ * The default URL if you're not logged in.
+ */
+export const DEFAULT_LOGIN_URL: string = "/login";

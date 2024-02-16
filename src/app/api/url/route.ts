@@ -10,7 +10,6 @@ export const GET = async (req: NextRequest) => {
     const params = req.nextUrl.searchParams.get("short_url");
     const newHeaders = new Headers(req.headers);
 
-    // If no slug provided (500):
     if (!params || typeof params !== "string") {
         return NextResponse.json(
             { error: "Error: No slug provided." },
@@ -18,14 +17,12 @@ export const GET = async (req: NextRequest) => {
         );
     }
 
-    // Get data from query:
-    const data = await supabase
+    const { data }= await supabase
         .from("links")
         .select("*")
         .eq("short_url", params)
         .single();
 
-    // Return (/) if not found (404):
     if (!data) {
         return NextResponse.json(
             { error: "Error: Short URL not found or invalid." },
@@ -33,7 +30,6 @@ export const GET = async (req: NextRequest) => {
         );
     }
 
-    // Cache:
     newHeaders.set("cache-control", "public, max-age=31536000, immutable");
 
     return NextResponse.json(data, {

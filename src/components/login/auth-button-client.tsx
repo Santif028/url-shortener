@@ -2,7 +2,7 @@
 
 import { login, logout } from './actions';
 import { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 
 
 const AuthButton = ({ user }: { user: User | null }) => {
@@ -10,11 +10,12 @@ const AuthButton = ({ user }: { user: User | null }) => {
 
     const handleLogin = async () => {
         await login();
-
+        router.push('/dashboard');
     }
 
     const handleLogout = async () => {
         await logout();
+        router.push('/');
         router.refresh();
     }
 

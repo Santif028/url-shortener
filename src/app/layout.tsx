@@ -18,9 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={dmSans.className}>
-        <NavbarComponent />
-
-        {children}
+        {<NavbarComponent />}
+        <main>{children}</main>
       </body>
     </html>
   );

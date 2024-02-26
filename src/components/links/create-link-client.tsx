@@ -1,70 +1,27 @@
 'use client'
 
-import { useForm } from "react-hook-form";
-import { checkIfShortUrlExist, createLink } from "@/server/actions/links"
-import { ReactNode, useState } from "react";
+import CreateModal from "../modals/create-modal";
+import { useState } from "react";
 import { User } from "@supabase/supabase-js";
-
-interface LinksProps {
-    original_url: string;
-    short_url: string;
-}
-
-interface CreateLinkProps {
-    children: ReactNode;
-}
 
 
 export function CreateLink({ user }: { user: User | null }) {
-    const { register, handleSubmit, setValue, reset } = useForm<LinksProps>();
+    const [createModal, setCreateModal] = useState(false);
 
-    const onSubmit = async (values: LinksProps) => {
-        if (values.original_url === values.short_url) {
-            console.log('URL and SHOR_URL cannot be the same');
-            return
-        }
-
-        try {
-            const shortUrlExists = await checkIfShortUrlExist(values.short_url);
-
-            if (shortUrlExists) {
-                console.log('SHORT_URL already exists');
-                return
-            };
-
-            if (user) {
-                await createLink(values, user);
-            } else {
-                console.error("User is null.");
-                // Manejo de error o mensaje apropiado
-            }
-        } catch (error) {
-
-        }
-
-        reset();
-    }
-
-
-
-
-    const handleGenerateRandomShortUrl = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const randomShortUrl = Math.random().toString(36).substring(7);
-        setValue('short_url', randomShortUrl);
+    const handleCreateModal = () => {
+        setCreateModal(!createModal);
     };
 
     return (
         <div>
-            <h1>Create Link</h1>
-            <form onSubmit={handleSubmit(onSubmit)} >
-                <label htmlFor="">Original URL</label>
-                <input className="bg-black" type="text" {...register("original_url")} />
-                <label htmlFor="">Short URL</label>
-                <input className="bg-black" type="text" {...register("short_url")} />
-                <button type="button" onClick={handleGenerateRandomShortUrl}>Generate Random Slug</button>
-                <input type="submit" value="Create Link" />
-            </form>
-        </div>
+            <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" onClick={handleCreateModal}>
+                <span className="relative flex px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                    Create Link
+                </span>
+            </button>
+
+            <CreateModal open={createModal} onClose={() => setCreateModal(!createModal)} user={user} />
+        </div >
     )
 }

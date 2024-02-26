@@ -1,6 +1,5 @@
-import { PostgrestError, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { createClient } from "../supabase/client";
-import { revalidatePath } from "next/cache";
 
 const supabase = createClient()
 
@@ -87,19 +86,18 @@ export const createLink = async (values: CreateLink, user: User) => {
 };
 
 
-export const updateLink = async (values: CreateLink, user: User) => {
-
+export const updateLink = async (id: string, updated_url: string, user: User) => {
     if (!user) {
         console.error("Not authenticated.");
         return null;
     }
 
-    // Update link:
-    const { data, error } = await supabase.from('links').insert({
-        original_url: values.original_url,
-        short_url: values.short_url,
-        user_id: user.id
-    }).eq('short_url', values.short_url);
+    // Actualiza el link:
+    const { data, error } = await supabase
+        .from('links')
+        .update({ original_url: updated_url })
+        .eq('id', id)
+        .eq('user_id', user.id);
 
     if (error) {
         console.error("Error updating link:", error.message);
@@ -118,7 +116,7 @@ export const deleteLink = async (id: string, user: User) => {
     }
 
     // Update link:
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('links')
         .delete()
         .eq('id', id)
@@ -129,5 +127,4 @@ export const deleteLink = async (id: string, user: User) => {
         return null;
     }
 
-    return data;
 };

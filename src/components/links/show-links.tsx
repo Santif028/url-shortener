@@ -1,7 +1,8 @@
 'use client'
 
-import { getLinksByUser } from "@/server/actions/links";
-import { Card } from "@/ui/card";
+import { getLinksByUser, updateLink } from "@/server/actions/links";
+import { deleteLink } from "@/server/actions/links";
+import { Card } from "@/components/card/card";
 import { User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 
@@ -27,6 +28,26 @@ const ShowLinks = ({ user }: { user: User | null }) => {
         fetchLinks();
     }, [links, user]);
 
+    const handleOnDelete = async (id: string) => {
+        if (user) {
+            try {
+                await deleteLink(id, user);
+            } catch (error) {
+                console.log('Error deleting link:', error);
+            }
+        }
+    }
+
+    const handleOnUpdate = async ( id:string, updated_url: string ) => {
+        if(user) {
+            try {
+                await updateLink(id, updated_url, user)
+            } catch (error) {
+                 
+            }
+        }
+    }
+
     return (
         <div className="flex flex-wrap gap-5 p-5">
 
@@ -34,7 +55,7 @@ const ShowLinks = ({ user }: { user: User | null }) => {
                 links
                     .map(link => {
                         return (
-                            <Card original_url={link.original_url} short_url={link.short_url} key={link.id} />
+                            <Card original_url={link.original_url} short_url={link.short_url} key={link.id} onDelete={() => handleOnDelete(link.id)} id={link.id} onUpdate={(updated_url)=> handleOnUpdate(link.id, updated_url)}/>
 
                         );
                     })
@@ -44,5 +65,3 @@ const ShowLinks = ({ user }: { user: User | null }) => {
 }
 
 export default ShowLinks;
-
-

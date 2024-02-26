@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 import { CreateLink } from "@/components/links/create-link-client";
 import { getUser } from "@/server/utils/users";
 import { redirect } from "next/navigation";
-import NavbarComponent from "../navbar/page";
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -14,13 +13,13 @@ interface DashboardLayoutProps {
 const DashboardLayout = async (props: DashboardLayoutProps) => {
     const user = await getUser();
 
-    if (user === null) {
+    if(user === null) {
         redirect('/login')
     }
 
     return (
         <>
-            <NavbarComponent />
+        
             <nav className="border-b border-gray-100 bg-gray-50 dark:border-neutral-800 dark:bg-neutral-800/50">
 
                 <div className="mx-auto">

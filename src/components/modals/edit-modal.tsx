@@ -1,4 +1,4 @@
-import { UpdateIcon } from "@/server/icons/update-icon";
+import { UpdateIcon } from "@/icons/update-icon";
 
 interface ModalProps {
     open: boolean;

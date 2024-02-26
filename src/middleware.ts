@@ -1,6 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, NextRequest } from 'next/server'
-import { apiAuthPrefix, dashboardRoutesPrefix, publicRoutes } from './routes';
+import { apiAuthPrefix, dashboardRoutesPrefix, publicRoutes, authRoutes } from './routes';
 
 export async function middleware(request: NextRequest) {
     let response = NextResponse.next({
@@ -11,9 +11,11 @@ export async function middleware(request: NextRequest) {
     const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
     const isDashboardRoute = request.nextUrl.pathname.startsWith(dashboardRoutesPrefix);
+    const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
     const short_url = request.nextUrl.pathname.split('/').pop();
 
-    if (!isDashboardRoute && !isApiAuthRoute) {
+
+    if (!isDashboardRoute && !isApiAuthRoute && !isAuthRoute) {
         const data = await fetch(
             `${request.nextUrl.origin}/api/url?short_url=${short_url}`,
         );

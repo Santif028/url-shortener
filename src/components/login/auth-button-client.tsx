@@ -2,7 +2,7 @@
 
 import { login, logout } from './actions';
 import { User } from '@supabase/supabase-js';
-import { useRouter, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 
 const AuthButton = ({ user }: { user: User | null }) => {

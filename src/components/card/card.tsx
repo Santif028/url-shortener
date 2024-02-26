@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { useState } from "react"
-import { DeleteIcon } from "@/server/icons/delete-icon"
-import { UpdateIcon } from "@/server/icons/update-icon"
-import { CopyIcon } from "@/server/icons/copy-icon"
+import { DeleteIcon } from "@/icons/delete-icon"
+import { UpdateIcon } from "@/icons/update-icon"
+import { CopyIcon } from "@/icons/copy-icon"
 import EditModal from "../modals/edit-modal"
 import DeleteModal from "../modals/delete-modal"
 

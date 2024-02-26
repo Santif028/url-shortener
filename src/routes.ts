@@ -11,6 +11,16 @@ export const publicRoutes: string[] = ["/", "verify"];
  */
 export const dashboardRoutesPrefix: string = "/dashboard";
 
+
+/**
+ * These routes are used for authentication.
+ * Not required for authentication.
+ */
+export const authRoutes: string[] = [
+    "/login",
+];
+
+
 /**
  * These prefix for API authentication routes.
  * Routes that start with this prefix are used for API authentication purposes.

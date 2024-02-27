@@ -10,7 +10,7 @@ export async function login() {
     const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-            redirectTo: 'http://localhost:3000/api/auth/callback'
+            redirectTo: '/api/auth/callback'
         }
     })
     if (error) {

@@ -10,7 +10,7 @@ export async function login() {
     const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-            redirectTo: '/api/auth/callback'
+            redirectTo: 'https://setsu-url-shortener.vercel.app/api/auth/callback'
         }
     })
     if (error) {
@@ -22,4 +22,3 @@ export async function logout() {
     await supabase.auth.signOut()
     
 }
-

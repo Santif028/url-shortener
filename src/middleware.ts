@@ -64,6 +64,10 @@ export async function middleware(request: NextRequest) {
     const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
     const short_url = request.nextUrl.pathname.split('/').pop();
 
+    if(isAuthRoute)  {
+        return null
+    }    
+   
     if (user !== null) {
         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT_URL, request.nextUrl));
     }

@@ -56,18 +56,18 @@ export async function middleware(request: NextRequest) {
 
     const { data } = await supabase.auth.getUser()
     const user = data.user
-    
+
     const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
     const isDashboardRoute = request.nextUrl.pathname.startsWith(dashboardRoutesPrefix);
     const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
     const short_url = request.nextUrl.pathname.split('/').pop();
 
-    if(isAuthRoute)  {
+    if (isApiAuthRoute) {
         return null
-    }    
-   
-    if (user !== null) {
+    }
+
+    if (isAuthRoute && user !== null) {
         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT_URL, request.nextUrl));
     }
 
@@ -79,8 +79,6 @@ export async function middleware(request: NextRequest) {
         const data = await fetch(
             `${request.nextUrl.origin}/api/url?short_url=${short_url}`,
         );
-        console.log(data);
-
 
         if (data.status === 404) {
             console.log(`Short URL not found: ${short_url}`);

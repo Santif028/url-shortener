@@ -71,7 +71,7 @@ export async function middleware(request: NextRequest) {
         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT_URL, request.nextUrl));
     }
 
-    if (user === null && !isPublicRoute) {
+    if (user === null && isDashboardRoute) {
         return Response.redirect(new URL("/login", request.nextUrl));
     }
 

@@ -74,7 +74,7 @@ export async function middleware(request: NextRequest) {
         return Response.redirect(new URL("/login", request.nextUrl));
     }
 
-    if (!isDashboardRoute && !isApiAuthRoute && !isAuthRoute) {
+    if (request.nextUrl.pathname.startsWith('/s/')) {
         const data = await fetch(
             `${request.nextUrl.origin}/api/url?short_url=${short_url}`,
         );

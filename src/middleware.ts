@@ -78,6 +78,8 @@ export async function middleware(request: NextRequest) {
         const data = await fetch(
             `${request.nextUrl.origin}/api/url?short_url=${short_url}`,
         );
+        console.log(data);
+        
 
         if (data.status === 404) {
             console.log(`Short URL not found: ${short_url}`);

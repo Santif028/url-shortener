@@ -55,7 +55,8 @@ export async function middleware(request: NextRequest) {
     )
 
     const user = await supabase.auth.getUser()
-
+    console.log(user);
+    
     const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
     const isDashboardRoute = request.nextUrl.pathname.startsWith(dashboardRoutesPrefix);

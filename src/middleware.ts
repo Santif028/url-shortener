@@ -62,14 +62,10 @@ export async function middleware(request: NextRequest) {
     const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
     const short_url = request.nextUrl.pathname.split('/').pop();
 
-    if (isApiAuthRoute) {
-        return null;
-    }
-
-    if (isAuthRoute && user) {
+    if (user) {
         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT_URL, request.nextUrl));
     }
-    
+
     if (!user && !isPublicRoute) {
         return Response.redirect(new URL("/login", request.nextUrl));
     }
@@ -79,7 +75,7 @@ export async function middleware(request: NextRequest) {
             `${request.nextUrl.origin}/api/url?short_url=${short_url}`,
         );
         console.log(data);
-        
+
 
         if (data.status === 404) {
             console.log(`Short URL not found: ${short_url}`);

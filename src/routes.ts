@@ -1,7 +1,7 @@
 /**
  * These routes do not require authentication.
  */
-export const publicRoutes: string[] = ["/", "verify"];
+export const publicRoutes: string[] = ["/"];
 
 
 /**
